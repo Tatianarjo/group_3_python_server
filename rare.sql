@@ -87,3 +87,22 @@ CREATE TABLE "Categories" (
 INSERT INTO Categories ('label') VALUES ('News');
 INSERT INTO Tags ('label') VALUES ('JavaScript');
 INSERT INTO Reactions ('label', 'image_url') VALUES ('happy', 'https://pngtree.com/so/happy');
+
+INSERT INTO `Users` VALUES (null, 'Peaches', 'Dasha', 'peaches@email.com', 'puppy', 'Peaches1', '1234', 'url', 2021-11-01, 1);
+INSERT INTO `Users` VALUES (null, 'Tatiana', 'Johnson', 'tatiana@email.com', 'glitter', 'eyepissglitter', '123456', 'url', 2021-11-01, 1);
+INSERT INTO `Users` VALUES (null, 'Emma', 'Vogelmeier', 'emma@email.com', 'I exist!', 'Emma123', '54321', 'url', 2021-11-01, 1);
+INSERT INTO `Users` VALUES (null, 'Zach', 'Wiley', 'zach@email.com', 'I am here.', 'Zach345', '6789', 'url', 2021-11-01, 1);
+INSERT INTO `Users` VALUES (null, 'Jackie', 'Gregory', 'jackie@email.com', 'This is my profile.', 'Jackie789', '7654', 2021-11-01, 1)
+
+
+INSERT INTO `Posts` VALUES (null, 1, 1, 'My first post!', 2021-11-03, 'url', 'content', 1);
+INSERT INTO `Posts` VALUES (null, 2, 3, 'Another post!', 2021-11-04, 'url', 'content', 1);
+INSERT INTO `Posts` VALUES (null, 3, 5, 'And another post!', 2021-11-05, 'url', 'content', 1);
+INSERT INTO `Posts` VALUES (null, 4, 6, 'Here is something else!', 2021-11-08, 'url', 'content', 1);
+INSERT INTO `Posts` VALUES (null, 5, 7, 'More info!', 2021-11-09, 'url', 'content', 1);
+
+
+INSERT INTO `Categories` VALUES (null, 'candles')
+INSERT INTO `Categories` VALUES (null, 'flowers')
+INSERT INTO `Categories` VALUES (null, 'puppies')
+INSERT INTO `Categories` VALUES (null, 'hair')
