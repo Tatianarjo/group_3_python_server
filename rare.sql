@@ -106,3 +106,5 @@ INSERT INTO `Categories` VALUES (null, 'candles')
 INSERT INTO `Categories` VALUES (null, 'flowers')
 INSERT INTO `Categories` VALUES (null, 'puppies')
 INSERT INTO `Categories` VALUES (null, 'hair')
+
+SELECT * FROM Users
