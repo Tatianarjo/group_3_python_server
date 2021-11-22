@@ -1,6 +1,21 @@
 import sqlite3
+import json
+import users
 
 from models import User
+
+USERS = [
+    {
+        "id": 1,
+        "first_name": "Nancy",
+        "last_name": "Drew",
+        "email":  "nancy@nancy.com",
+        "bio":"hello world",
+        "username": "nancy",
+        "password": 123
+
+    }
+]
 
 
 def create_user(post_data):
@@ -44,3 +59,62 @@ def login_user(user_data):
             return None
         else:
             return User(**result)
+
+#Function with a single parameter
+def get_single_user(id):
+    with sqlite3.connect('./rare.db') as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+        db_cursor.execute("""
+        SELECT
+            u.id,
+            u.first_name,
+            u.last_name,
+            u.email,
+            u.bio,
+            u.username,
+            u.password,
+            u.profile_image_url,
+            u.created_on,
+            u.active
+        FROM users u
+        WHERE u.id = ?
+        """, ( id, ))
+        data = db_cursor.fetchone()
+        user = User(**data)
+        return json.dumps(user.__dict__)
+   
+    
+def get_all_users():
+    with sqlite3.connect('./rare.db') as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+        db_cursor.execute("""
+        SELECT
+            u.id,
+            u.first_name,
+            u.last_name,
+            u.email,
+            u.bio,
+            u.username,
+            u.password,
+            u.profile_image_url,
+            u.created_on,
+            u.active
+        FROM users u
+        """)
+        users = []
+        dataset = db_cursor.fetchall()
+        for row in dataset:
+            user = User(**row)
+            users.append(user.__dict__)
+    return json.dumps(users)
+
+
+
+
+
+
+
+
+

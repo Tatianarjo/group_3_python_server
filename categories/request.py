@@ -2,24 +2,8 @@ import sqlite3
 import json
 import categories
 
-CATEGORIES = [
-    {
-        "id": 1,
-        "label": "candles"
-    },
-    {
-        "id": 2,
-        "label": "flowers"
-    },
-    {
-        "id": 3,
-        "label": "puppies"
-    },
-    {
-        "id": 4,
-        "label": "hair"
-    }
-]
+from models import Category
+
 
 def create_category(category):
     max_id = CATEGORIES[-1]["id"]
@@ -36,3 +20,5 @@ def create_category(category):
 
     #Returns the dictionary with id property added
     return category
+
+    #build a sql statement above
