@@ -2,7 +2,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
 from users import create_user, login_user, get_single_user, get_all_users
-from categories import create_category
+from categories import get_all_categories, get_single_category
 
 
 class RareRequestHandler(BaseHTTPRequestHandler):
@@ -63,7 +63,14 @@ class RareRequestHandler(BaseHTTPRequestHandler):
             if id is not None:
                 response = f"{get_single_user(id)}"
             else:
-                response = f"{get_all_users()}" 
+                response = f"{get_all_users()}"
+
+        elif resource == "categories":
+            if id is not None:
+                response = f"{get_single_category()}"
+            else:
+                response = f"{get_all_categories()}" 
+
         self.wfile.write(response.encode())
 
     def do_POST(self):

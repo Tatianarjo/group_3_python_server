@@ -115,3 +115,5 @@ DELETE FROM Users
 SELECT * FROM Users
 
 SELECT * FROM Categories
+
+INSERT INTO Users values(null, 'Mya', 'Washington', 'mya@email.com', 'dog', 'doggy', 5678, 'url', 2021-11-21, 2)
