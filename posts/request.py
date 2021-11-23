@@ -16,8 +16,8 @@ def create_post(new_post):
         VALUES
             ( ?, ?, ?, ?, ?);
         """, (new_post['user_id'], new_post['category_id'],
-              new_post['title'], new_post['publication_'],
-              new_post['customer_id'], ))
+              new_post['title'], new_post['publication_date'],
+              new_post['image_url'], new_post['content'], new_post['approved'] ))
 
         # The `lastrowid` property on the cursor will return
         # the primary key of the last thing that got added to
