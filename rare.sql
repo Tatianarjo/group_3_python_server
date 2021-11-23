@@ -127,4 +127,4 @@ INSERT INTO Users values(null, 'Mya', 'Washington', 'mya@email.com', 'dog', 'dog
 
 INSERT INTO `Categories` VALUES (null, 'food')
 
-INSERT INTO `Categories` VALUES (null, 'handbags')
+INSERT INTO `Categories` VALUES (null, 'pictures')

@@ -45,13 +45,12 @@ def get_single_category(id):
             c.id,
             c.label
         FROM categories c
-        """)
-        categories = []
-        dataset = db_cursor.fetchall()
-        for row in dataset:
-            category = Category(**row)
-            categories.append(category.__dict__)
-    return json.dumps(categories)
+        WHERE c.id = ?
+        """, (id, ))
+        row = db_cursor.fetchone()
+        category = Category(**row)
+    return json.dumps(category.__dict__)
+##Line 52 is where it takes the information & makes it readable like when we retrieve an APIs information
 
 def create_category(post_data):
     new_category = Category(**post_data)
@@ -68,3 +67,11 @@ def create_category(post_data):
         id = db_cursor.lastrowid
         new_category.id = id
     return new_category
+
+def delete_category(id):
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+        db_cursor.execute ("""
+        DELETE FROM category
+        WHERE id =?
+        """, (id, ))
