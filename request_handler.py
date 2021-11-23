@@ -2,7 +2,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
 from users import create_user, login_user, get_single_user, get_all_users
-from categories import get_all_categories, get_single_category
+from categories import get_all_categories, get_single_category, create_category
 
 
 class RareRequestHandler(BaseHTTPRequestHandler):
@@ -48,7 +48,7 @@ class RareRequestHandler(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept')
         self.end_headers()
 
-    #This handles any GET reaquest
+    #This handles any GET request
 
     def do_GET(self):
         self._set_headers(200)
@@ -67,7 +67,7 @@ class RareRequestHandler(BaseHTTPRequestHandler):
 
         elif resource == "categories":
             if id is not None:
-                response = f"{get_single_category()}"
+                response = f"{get_single_category(id)}"
             else:
                 response = f"{get_all_categories()}" 
 
@@ -81,7 +81,8 @@ class RareRequestHandler(BaseHTTPRequestHandler):
         resource = None
         
         response = None
-        new_user =None
+        new_user = None
+        new_category = None
         
         if self.path == '/login':
             user = login_user(post_body)
@@ -111,9 +112,13 @@ class RareRequestHandler(BaseHTTPRequestHandler):
         
         if resource == "users":
             new_user = create_user(post_body)
+        #Creating a new category here
+        if resource == "categories":
+            new_category = create_category(post_body)
 
         #encodes the new category and sends in the response
             self.wfile.write(f"{new_user}".encode())
+            self.wfile.write(f"{new_category}".encode())
 
         self.wfile.write(json.dumps(response).encode())
 

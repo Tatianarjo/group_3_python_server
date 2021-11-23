@@ -19,25 +19,6 @@ CATEGORIES = [
     }
 ]
 
-
-# def create_category(category):
-#     max_id = CATEGORIES[-1]["id"]
-#     #This gets the id value of the last category on the list
-
-#     #This adds 1 to whatever the index number is
-#     new_id = max_id + 1
-
-#     #This adds an id property to the category dictionary
-#     category["id"] = new_id
-
-#     #This adds the category dictionary to the list
-#     CATEGORIES.append(category)
-
-#     #Returns the dictionary with id property added
-#     return category
-
-#     #build a sql statement above
-
 def get_all_categories():
     with sqlite3.connect('./rare.db') as conn:
         conn.row_factory = sqlite3.Row
@@ -55,7 +36,7 @@ def get_all_categories():
         categories.append(category.__dict__)
     return json.dumps(categories)
 
-def get_single_category():
+def get_single_category(id):
     with sqlite3.connect('./rare.db') as conn:
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
@@ -71,3 +52,19 @@ def get_single_category():
             category = Category(**row)
             categories.append(category.__dict__)
     return json.dumps(categories)
+
+def create_category(post_data):
+    new_category = Category(**post_data)
+    with sqlite3.connect('./rare.db') as conn:
+        db_cursor = conn.cursor()
+        db_cursor.execute("""
+            INSERT INTO Categories (
+                id, label
+            ) VALUES ( ?, ?);
+        """, (
+            new_category.id, new_category.label
+        ))
+        
+        id = db_cursor.lastrowid
+        new_category.id = id
+    return new_category

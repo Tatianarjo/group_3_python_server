@@ -108,6 +108,7 @@ INSERT INTO `Categories` VALUES (null, 'puppies')
 INSERT INTO `Categories` VALUES (null, 'hair')
 
 
+
 INSERT INTO Users values(null, 'Peaches', 'Dasha', 'peaches@email.com', 'puppy', 'Peaches1', 1234, 'url', 2021-11-01, 1)
 
 DELETE FROM Users
@@ -116,4 +117,14 @@ SELECT * FROM Users
 
 SELECT * FROM Categories
 
+SELECT id, label
+FROM Categories
+WHERE label = 'food'
+
+INSERT
+
 INSERT INTO Users values(null, 'Mya', 'Washington', 'mya@email.com', 'dog', 'doggy', 5678, 'url', 2021-11-21, 2)
+
+INSERT INTO `Categories` VALUES (null, 'food')
+
+INSERT INTO `Categories` VALUES (null, 'handbags')
