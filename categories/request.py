@@ -48,8 +48,9 @@ def get_single_category(id):
         WHERE c.id = ?
         """, (id, ))
         row = db_cursor.fetchone()
-        category = Category(**row)
-    return json.dumps(category.__dict__)
+        category = Category(**row) if row else None
+    return json.dumps(category.__dict__) if category else ""
+    ##  If the row doesn't return anything I want an empty string(falsey);Ternary; Helps me get a 404 code; dictionary is (truthy)
 ##Line 52 is where it takes the information & makes it readable like when we retrieve an APIs information
 
 def create_category(post_data):
@@ -72,6 +73,32 @@ def delete_category(id):
     with sqlite3.connect("./rare.db") as conn:
         db_cursor = conn.cursor()
         db_cursor.execute ("""
+
+        DELETE FROM category
+        WHERE id =?
+        """, (id, ))
+
+#Update Category
+
+def update_category(id, new_category):
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        UPDATE Categories
+            SET
+                label = ?
+        WHERE id = ?
+        """, (new_category['label'], id,))
+
+        rows_affected = db_cursor.rowcount
+    
+    if rows_affected == 0:
+        return False
+    else:
+        return True
+
             DELETE FROM Categories
             WHERE id = ?
         """, (id, ))
+
