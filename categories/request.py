@@ -72,6 +72,6 @@ def delete_category(id):
     with sqlite3.connect("./rare.db") as conn:
         db_cursor = conn.cursor()
         db_cursor.execute ("""
-        DELETE FROM category
-        WHERE id =?
+            DELETE FROM Categories
+            WHERE id = ?
         """, (id, ))
