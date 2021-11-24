@@ -3,8 +3,7 @@ import json
 
 from users import create_user, login_user, get_single_user, get_all_users
 
-
-from posts import create_post
+from posts import create_post, get_all_posts, get_single_post
 
 from categories import get_all_categories, get_single_category, create_category
 
@@ -69,6 +68,12 @@ class RareRequestHandler(BaseHTTPRequestHandler):
                 response = f"{get_single_user(id)}"
             else:
                 response = f"{get_all_users()}"
+        
+        elif resource == "posts":
+            if id is not None:
+                response = f"{get_single_post(id)}"
+            else:
+                response = f"{get_all_posts()}"
 
         elif resource == "categories":
             if id is not None:
@@ -135,12 +140,12 @@ class RareRequestHandler(BaseHTTPRequestHandler):
 
         self.wfile.write(json.dumps(response).encode())
 
-#Here is where I write a function to delete 
-def do_DELETE(self):
-#Setting a 204 response here
-    self._set_headers(204)
-#Parse the URL
-    (resource, id) = self.parse_url(self.path)
+    #Here is where I write a function to delete 
+    def do_DELETE(self):
+    #Setting a 204 response here
+        self._set_headers(204)
+    #Parse the URL
+        (resource, id) = self.parse_url(self.path)
     
 
 
