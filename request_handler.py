@@ -122,6 +122,14 @@ class RareRequestHandler(BaseHTTPRequestHandler):
 
         self.wfile.write(json.dumps(response).encode())
 
+#Here is where I write a function to delete 
+def do_DELETE(self):
+#Setting a 204 response here
+    self._set_headers(204)
+#Parse the URL
+    (resource, id) = self.parse_url(self.path)
+    
+
 
 def main():
     host = ''
