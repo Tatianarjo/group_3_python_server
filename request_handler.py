@@ -1,14 +1,9 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
-
 from users import create_user, login_user, get_single_user, get_all_users
-
-
 from posts import create_post
-
 from categories import get_all_categories, get_single_category, create_category
-
-
+from comments import get_all_comments, get_single_comment
 
 class RareRequestHandler(BaseHTTPRequestHandler):
     def parse_url(self, path):
@@ -75,6 +70,12 @@ class RareRequestHandler(BaseHTTPRequestHandler):
                 response = f"{get_single_category(id)}"
             else:
                 response = f"{get_all_categories()}" 
+        
+        elif resource == "comments":
+            if id is not None: 
+                response = f"{get_single_comment(id)}"
+            else:
+                response = f"{get_all_comments()}"
 
         self.wfile.write(response.encode())
 
@@ -153,4 +154,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

@@ -102,10 +102,10 @@ INSERT INTO `Posts` VALUES (null, 4, 6, 'Here is something else!', 2021-11-08, '
 INSERT INTO `Posts` VALUES (null, 5, 7, 'More info!', 2021-11-09, 'url', 'content', 1);
 
 
-INSERT INTO `Categories` VALUES (null, 'candles')
-INSERT INTO `Categories` VALUES (null, 'flowers')
-INSERT INTO `Categories` VALUES (null, 'puppies')
-INSERT INTO `Categories` VALUES (null, 'hair')
+INSERT INTO `Categories` VALUES (null, 'candles');
+INSERT INTO `Categories` VALUES (null, 'flowers');
+INSERT INTO `Categories` VALUES (null, 'puppies');
+INSERT INTO `Categories` VALUES (null, 'hair');
 
 
 
@@ -130,3 +130,4 @@ INSERT INTO `Categories` VALUES (null, 'food')
 
 INSERT INTO `Categories` VALUES (null, 'pictures')
 
+INSERT INTO `Comments` VALUES (null, 1, 1, 'this is not a comment');
