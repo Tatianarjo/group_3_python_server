@@ -1,6 +1,6 @@
 class Post():
 
-    # Class initializer. It has 5 custom parameters, with the
+    # Class initializer. It has custom parameters, with the
     # special `self` parameter that every method on a class
     # needs as the first parameter.
     def __init__(self, id, user_id, category_id, title, publication_date, image_url, content, approved):
@@ -12,5 +12,3 @@ class Post():
         self.image_url = image_url
         self.content = content
         self.approved = approved
-
-
