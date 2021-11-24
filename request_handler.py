@@ -2,7 +2,12 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
 from users import create_user, login_user, get_single_user, get_all_users
+
+
+from posts import create_post
+
 from categories import get_all_categories, get_single_category, create_category
+
 
 
 class RareRequestHandler(BaseHTTPRequestHandler):
@@ -82,7 +87,11 @@ class RareRequestHandler(BaseHTTPRequestHandler):
         
         response = None
         new_user = None
+
+        new_post = None
+
         new_category = None
+
         
         if self.path == '/login':
             user = login_user(post_body)
@@ -116,6 +125,10 @@ class RareRequestHandler(BaseHTTPRequestHandler):
         if resource == "categories":
             new_category = create_category(post_body)
 
+        elif resource == "posts":
+            new_post = create_post(post_body)
+            self.wfile.write(f"{new_post}".encode())
+            
         #encodes the new category and sends in the response
             self.wfile.write(f"{new_user}".encode())
             self.wfile.write(f"{new_category}".encode())
