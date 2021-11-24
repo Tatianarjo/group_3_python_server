@@ -6,7 +6,7 @@ from users import create_user, login_user, get_single_user, get_all_users
 
 from posts import create_post
 
-from categories import get_all_categories, get_single_category, create_category
+from categories import get_all_categories, get_single_category, create_category, update_category
 
 
 
@@ -56,7 +56,7 @@ class RareRequestHandler(BaseHTTPRequestHandler):
     #This handles any GET request
 
     def do_GET(self):
-        self._set_headers(200)
+        
 
         response = {}
 
@@ -75,6 +75,11 @@ class RareRequestHandler(BaseHTTPRequestHandler):
                 response = f"{get_single_category(id)}"
             else:
                 response = f"{get_all_categories()}" 
+
+        if response: 
+            self._set_headers(200)
+        else:
+            self._set_headers(404)
 
         self.wfile.write(response.encode())
 
@@ -141,6 +146,24 @@ def do_DELETE(self):
     self._set_headers(204)
 #Parse the URL
     (resource, id) = self.parse_url(self.path)
+
+
+def do_PUT(self):
+    content_len = int(self.headers.get('content-length', 0))
+    post_body = self.rfile.read(content_len)
+    post_body = json.loads(post_body)
+##Parse the URL
+    (resource, id) = self.parse_url(self.path)
+
+    success = False
+    if resource == "categories":
+        success = update_category(id, post_body)
+#rest of the elif's
+    if success:
+        self._set_headers(204)
+    else:
+        self._set_headers(404)
+    self.wfile.write("".encode())
     
 
 

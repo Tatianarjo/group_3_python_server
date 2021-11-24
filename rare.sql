@@ -130,3 +130,7 @@ INSERT INTO `Categories` VALUES (null, 'food')
 
 INSERT INTO `Categories` VALUES (null, 'pictures')
 
+
+UPDATE Categories
+SET label = 'cherries'
+WHERE id = 6
