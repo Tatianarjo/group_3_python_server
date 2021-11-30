@@ -134,3 +134,26 @@ INSERT INTO `Categories` VALUES (null, 'pictures')
 UPDATE Categories
 SET label = 'cherries'
 WHERE id = 6
+
+UPDATE Posts
+SET category_id = 1
+WHERE id = 2
+
+
+SELECT *
+FROM Posts
+
+SELECT
+            p.id,
+            p.user_id,
+            p.category_id,
+            p.title,
+            p.publication_date,
+            p.image_url,
+            p.content,
+            p.approved,
+            c.label
+        FROM Posts p
+        JOIN Categories c
+        ON c.id = p.category_id
+        WHERE p.category_id = 1

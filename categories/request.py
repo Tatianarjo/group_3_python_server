@@ -97,8 +97,3 @@ def update_category(id, new_category):
         return False
     else:
         return True
-
-            DELETE FROM Categories
-            WHERE id = ?
-        """, (id, ))
-
