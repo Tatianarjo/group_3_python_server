@@ -4,7 +4,7 @@ from categories.request import delete_category
 
 from users import create_user, login_user, get_single_user, get_all_users
 
-from posts import create_post, get_all_posts, get_single_post
+from posts import create_post, get_all_posts, get_single_post, delete_post 
 
 
 
@@ -146,8 +146,7 @@ class RareRequestHandler(BaseHTTPRequestHandler):
         #encodes the new category and sends in the response
             self.wfile.write(f"{new_user}".encode())
             self.wfile.write(f"{new_category}".encode())
-
-        self.wfile.write(json.dumps(response).encode())
+            self.wfile.write(json.dumps(response).encode())
 
 
 #Here is where I write a function to delete 
@@ -157,6 +156,11 @@ def do_DELETE(self):
     self._set_headers(204)
 #Parse the URL
     (resource, id) = self.parse_url(self.path)
+    # Delete a single post from the list
+    if resource == "posts":
+        delete_post(id)
+    # Encode the new post and send in response
+    self.wfile.write("".encode())
 
 
 def do_PUT(self):
