@@ -1,9 +1,10 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 from users import create_user, login_user, get_single_user, get_all_users
-from posts import create_post
-from categories import get_all_categories, get_single_category, create_category
 from comments import get_all_comments, get_single_comment
+from categories.request import delete_category
+from posts import create_post, get_all_posts, get_single_post
+from categories import get_all_categories, get_single_category, create_category, update_category, delete_category
 
 class RareRequestHandler(BaseHTTPRequestHandler):
     def parse_url(self, path):
@@ -51,7 +52,7 @@ class RareRequestHandler(BaseHTTPRequestHandler):
     #This handles any GET request
 
     def do_GET(self):
-        self._set_headers(200)
+        
 
         response = {}
 
@@ -64,6 +65,12 @@ class RareRequestHandler(BaseHTTPRequestHandler):
                 response = f"{get_single_user(id)}"
             else:
                 response = f"{get_all_users()}"
+        
+        elif resource == "posts":
+            if id is not None:
+                response = f"{get_single_post(id)}"
+            else:
+                response = f"{get_all_posts()}"
 
         elif resource == "categories":
             if id is not None:
@@ -76,6 +83,11 @@ class RareRequestHandler(BaseHTTPRequestHandler):
                 response = f"{get_single_comment(id)}"
             else:
                 response = f"{get_all_comments()}"
+
+        if response: 
+            self._set_headers(200)
+        else:
+            self._set_headers(404)
 
         self.wfile.write(response.encode())
 
@@ -136,14 +148,34 @@ class RareRequestHandler(BaseHTTPRequestHandler):
 
         self.wfile.write(json.dumps(response).encode())
 
+
 #Here is where I write a function to delete 
+
 def do_DELETE(self):
 #Setting a 204 response here
     self._set_headers(204)
 #Parse the URL
     (resource, id) = self.parse_url(self.path)
-    
 
+
+def do_PUT(self):
+    content_len = int(self.headers.get('content-length', 0))
+    post_body = self.rfile.read(content_len)
+    post_body = json.loads(post_body)
+##Parse the URL
+    (resource, id) = self.parse_url(self.path)
+
+    success = False
+    if resource == "categories":
+        success = update_category(id, post_body)
+#rest of the elif's
+    if success:
+        self._set_headers(204)
+    else:
+        self._set_headers(404)
+    self.wfile.write("".encode())
+
+  
 
 def main():
     host = ''

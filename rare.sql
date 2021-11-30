@@ -131,3 +131,8 @@ INSERT INTO `Categories` VALUES (null, 'food')
 INSERT INTO `Categories` VALUES (null, 'pictures')
 
 INSERT INTO `Comments` VALUES (null, 1, 1, 'this is not a comment');
+
+UPDATE Categories
+SET label = 'cherries'
+WHERE id = 6
+
