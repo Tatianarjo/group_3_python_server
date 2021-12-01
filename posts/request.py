@@ -102,3 +102,18 @@ def create_post(new_post):
         new_post['id'] = id
 
     return json.dumps(new_post)
+
+def delete_post(id):
+    # Initial -1 value for post index, in case one isn't found
+    post_index = -1
+
+    # Iterate the POSTS list, but use enumerate() so that you
+    # can access the index value of each item
+    for index, post in enumerate(POSTS):
+        if post["id"] == id:
+            # Found the post. Store the current index.
+            post_index = index
+
+    # If the post was found, use pop(int) to remove it from list
+    if post_index >= 0:
+        POSTS.pop(post_index)
