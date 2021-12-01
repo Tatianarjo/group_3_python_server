@@ -67,8 +67,6 @@ class RareRequestHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         
-        
-
         response = {}
 
         parsed = self.parse_url(self.path)
@@ -175,6 +173,10 @@ def do_DELETE(self):
     if resource == "posts":
         delete_post(id)
     # Encode the new post and send in response
+     
+    #Here is where I can delete a single category
+    if resource == "categories":
+        delete_category(id)
     self.wfile.write("".encode())
 
 
