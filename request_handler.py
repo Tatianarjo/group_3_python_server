@@ -1,17 +1,24 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
+from sqlite3.dbapi2 import PARSE_DECLTYPES
 from categories.request import delete_category
 
 from users import create_user, login_user, get_single_user, get_all_users
 
-from posts import create_post, get_all_posts, get_single_post, delete_post 
+from posts import (
+    create_post, 
+    get_all_posts, 
+    get_single_post, 
+    get_posts_by_category_id,
+    delete_post
+)
 
-
-
-from categories import get_all_categories, get_single_category, create_category, update_category, delete_category
-
-
-
+from categories import (
+    get_all_categories, 
+    get_single_category, 
+    create_category, 
+    update_category, 
+    delete_category)
 
 class RareRequestHandler(BaseHTTPRequestHandler):
     def parse_url(self, path):
@@ -60,6 +67,7 @@ class RareRequestHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         
+        
 
         response = {}
 
@@ -67,23 +75,30 @@ class RareRequestHandler(BaseHTTPRequestHandler):
         if len(parsed) == 2:
             ( resource, id ) = parsed
 
-        if resource == "users":
-            if id is not None:
-                response = f"{get_single_user(id)}"
-            else:
-                response = f"{get_all_users()}"
-        
-        elif resource == "posts":
-            if id is not None:
-                response = f"{get_single_post(id)}"
-            else:
-                response = f"{get_all_posts()}"
+            if resource == "users":
+                if id is not None:
+                    response = f"{get_single_user(id)}"
+                else:
+                    response = f"{get_all_users()}"
+            
+            elif resource == "posts":
+                if id is not None:
+                    response = f"{get_single_post(id)}"
+                else:
+                    response = f"{get_all_posts()}"
 
-        elif resource == "categories":
-            if id is not None:
-                response = f"{get_single_category(id)}"
-            else:
-                response = f"{get_all_categories()}" 
+            elif resource == "categories":
+                if id is not None:
+                    response = f"{get_single_category(id)}"
+                else:
+                    response = f"{get_all_categories()}" 
+
+        #http://localhost:8088/posts?category_id=1
+        elif len(parsed) == 3:
+            ( resource, key, value ) = parsed 
+
+            if key == "category_id" and resource == "posts":
+                response = get_posts_by_category_id(value)    
 
         if response: 
             self._set_headers(200)

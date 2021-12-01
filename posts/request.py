@@ -1,6 +1,6 @@
 import sqlite3
 import json
-from models import Post
+from models import Post, Category
 
 POSTS = [
     
@@ -101,7 +101,50 @@ def create_post(new_post):
         # primary key in the response.
         new_post['id'] = id
 
-    return json.dumps(new_post)
+
+def get_posts_by_category_id(category_id):
+
+    with sqlite3.connect("./rare.db") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+#This is the SQL query to get the info I want
+        db_cursor.execute("""
+        SELECT
+            p.id,
+            p.user_id,
+            p.category_id,
+            p.title,
+            p.publication_date,
+            p.image_url,
+            p.content,
+            p.approved,
+            c.label
+        FROM Posts p
+        JOIN Categories c
+        ON c.id = p.category_id
+        WHERE p.category_id = ?
+        """, (category_id,))
+
+        
+        dataset = db_cursor.fetchall()
+        posts = []
+        for row in dataset:
+        #create a post from the current row
+            post = Post(row['id'], row['user_id'], row['category_id'],
+                        row['title'], row['publication_date'],
+                        row['image_url'], row['content'], row['approved'])
+            ##now I'm creating a Category instance from the current row
+            category = Category(row['category_id'], row['label'])
+            ##add the dictionary representation of the category to the post
+            post.category = category.__dict__
+
+        ##Add the dictionary representation of the post to the list
+            posts.append(post.__dict__)
+
+
+        return json.dumps(posts)
+
 
 def delete_post(id):
     # Initial -1 value for post index, in case one isn't found
