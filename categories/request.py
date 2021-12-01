@@ -4,20 +4,7 @@ import categories
 
 from models import Category
 
-CATEGORIES = [
-    {
-        "id": 1,
-        "label": "flowers"
-    },
-    {
-        "id": 2,
-        "label": "cookies"
-    },
-    {
-        "id": 3,
-        "label": "hair"
-    }
-]
+
 
 def get_all_categories():
     with sqlite3.connect('./rare.db') as conn:
