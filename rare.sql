@@ -132,7 +132,7 @@ INSERT INTO `Categories` VALUES (null, 'pictures')
 
 
 UPDATE Categories
-SET label = 'cherries'
+SET label = 'bananas'
 WHERE id = 6
 
 UPDATE Posts
