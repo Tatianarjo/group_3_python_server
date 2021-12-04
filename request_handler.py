@@ -1,7 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 from users import create_user, login_user, get_single_user, get_all_users
-from comments import get_all_comments, get_single_comment
+from comments import get_all_comments, get_single_comment, create_comment
 from categories.request import delete_category
 from posts import create_post, get_all_posts, get_single_post
 from categories import get_all_categories, get_single_category, create_category, update_category, delete_category
@@ -26,14 +26,12 @@ class RareRequestHandler(BaseHTTPRequestHandler):
     # No query string parameter
         else:
             id = None
-
         try:
             id = int(path_params[2])
         except IndexError:
             pass  # No route parameter exists: /animals
         except ValueError:
             pass  # Request had trailing slash: /animals/
-
         return (resource, id)
 
     def _set_headers(self, status):
@@ -53,7 +51,6 @@ class RareRequestHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         
-
         response = {}
 
         parsed = self.parse_url(self.path)
@@ -92,19 +89,21 @@ class RareRequestHandler(BaseHTTPRequestHandler):
         self.wfile.write(response.encode())
 
     def do_POST(self):
+        self._set_headers(201)
         content_len = int(self.headers.get('content-length', 0))
-        raw_body = self.rfile.read(content_len)
-        post_body = json.loads(raw_body)
-
-        resource = None
-        
-        response = None
+        # raw_body = self.rfile.read(content_len)
+        # added lines 96 and 97 and commented out 94 - ZDW
+        post_body = self.rfile.read(content_len)
+        post_body = json.loads(post_body)
+        # added line 99 to parse the URL - ZDW
+        (resource, id) = self.parse_url(self.path)
+        # commented out 101 and 102 below while I try to get basic POST function working. Not sure what they do. -ZDW
+        # resource = None
+        # response = None
         new_user = None
-
         new_post = None
-
         new_category = None
-
+        new_comment = None
         
         if self.path == '/login':
             user = login_user(post_body)
@@ -132,11 +131,18 @@ class RareRequestHandler(BaseHTTPRequestHandler):
                 }
             self._set_headers(201)
         
+        #create a new user
         if resource == "users":
             new_user = create_user(post_body)
+            
         #Creating a new category here
         if resource == "categories":
             new_category = create_category(post_body)
+
+        #create a new comment
+        if resource == "comments":
+            new_comment = create_comment(post_body)
+            self.wfile.write(f"{new_comment}".encode())
 
         elif resource == "posts":
             new_post = create_post(post_body)
@@ -157,7 +163,6 @@ def do_DELETE(self):
 #Parse the URL
     (resource, id) = self.parse_url(self.path)
 
-
 def do_PUT(self):
     content_len = int(self.headers.get('content-length', 0))
     post_body = self.rfile.read(content_len)
@@ -175,14 +180,11 @@ def do_PUT(self):
         self._set_headers(404)
     self.wfile.write("".encode())
 
-  
-
 def main():
     host = ''
     port = 8088
     print(f'listening on port {port}!')
     HTTPServer((host, port), RareRequestHandler).serve_forever()
-
 
 if __name__ == "__main__":
     main()
