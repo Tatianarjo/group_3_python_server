@@ -3,5 +3,6 @@ from .request import (
     get_all_posts,
     get_single_post,
     delete_post,
-    get_posts_by_category_id
+    get_posts_by_category_id,
+    edit_post
 )

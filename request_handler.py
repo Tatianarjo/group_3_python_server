@@ -10,7 +10,8 @@ from posts import (
     get_all_posts, 
     get_single_post, 
     get_posts_by_category_id,
-    delete_post
+    delete_post,
+    edit_post
 )
 
 from categories import (
@@ -190,6 +191,8 @@ def do_PUT(self):
     success = False
     if resource == "categories":
         success = update_category(id, post_body)
+    if resource == "posts":
+        success = edit_post(id, post_body)
 #rest of the elif's
     if success:
         self._set_headers(204)
